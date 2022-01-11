@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_crud/models/contact_model.dart';
 
 class NewContactForm extends StatefulWidget {
   @override
@@ -10,6 +12,10 @@ class _NewContactFormState extends State<NewContactForm> {
 
   String? _name;
   String? _age;
+
+  void addContact(Contact contact) {
+    Hive.box("contacts").add(contact);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +43,11 @@ class _NewContactFormState extends State<NewContactForm> {
           ),
           RaisedButton(
             child: Text('Add New Contact'),
-            onPressed: () {},
+            onPressed: () {
+              _formKey.currentState?.save();
+              final newContact = Contact(_name ?? "", int.parse(_age ?? ""));
+              addContact(newContact);
+            },
           ),
         ],
       ),
