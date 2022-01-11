@@ -29,7 +29,9 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         home: FutureBuilder(
-          future: Hive.openBox("contacts"),
+          future: Hive.openBox("contacts", compactionStrategy: (int total, int deleted) {
+            return deleted > 20;
+          }),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError)
@@ -44,6 +46,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
+    Hive.box("contacts").compact();
     Hive.close();
     super.dispose();
   }
