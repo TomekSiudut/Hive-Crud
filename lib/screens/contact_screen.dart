@@ -39,7 +39,9 @@ class ContactScreen extends StatelessWidget {
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.refresh),
-                      onPressed: () {},
+                      onPressed: () {
+                        contactsBox.putAt(index, Contact("${contact.name}*", contact.age + 1));
+                      },
                     ),
                     IconButton(
                       icon: Icon(Icons.delete),
