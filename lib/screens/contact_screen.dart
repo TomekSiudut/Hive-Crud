@@ -46,7 +46,7 @@ class ContactScreen extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () {
-                        contactsBox.delete(index);
+                        contactsBox.deleteAt(index);
                       },
                     )
                   ],
