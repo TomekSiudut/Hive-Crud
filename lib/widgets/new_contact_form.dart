@@ -14,7 +14,8 @@ class _NewContactFormState extends State<NewContactForm> {
   String? _age;
 
   void addContact(Contact contact) {
-    Hive.box("contacts").add(contact);
+    final contactsBox = Hive.box("contacts");
+    contactsBox.add(contact);
   }
 
   @override

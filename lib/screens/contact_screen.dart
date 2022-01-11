@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_crud/models/contact_model.dart';
 import 'package:hive_crud/widgets/new_contact_form.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class ContactScreen extends StatelessWidget {
   const ContactScreen({
@@ -21,27 +24,32 @@ class ContactScreen extends StatelessWidget {
   }
 
   Widget _buildListView() {
-    return ListView.builder(
-      itemCount: 2,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text("title"),
-          subtitle: Text("description"),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.refresh),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {},
-              )
-            ],
-          ),
-        );
-      },
-    );
+    return WatchBoxBuilder(
+        box: Hive.box("contacts"),
+        builder: (BuildContext context, contactsBox) {
+          return ListView.builder(
+            itemCount: contactsBox.length,
+            itemBuilder: (context, index) {
+              final contact = contactsBox.getAt(index) as Contact;
+              return ListTile(
+                title: Text(contact.name),
+                subtitle: Text(contact.age.toString()),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.refresh),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {},
+                    )
+                  ],
+                ),
+              );
+            },
+          );
+        });
   }
 }
